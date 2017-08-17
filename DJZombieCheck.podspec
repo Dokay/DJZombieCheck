@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.summary          = 'A Objective-C zombie object detect tool.'
 
   s.description      = <<-DESC
-    A Objective-C zombie object detect tool.
+    A Objective-C zombie object detect tool,it can work in release mode.
                        DESC
 
   s.homepage         = 'https://github.com/Dokay/DJZombieCheck'
