@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'DJZombieCheck_Example' do
+  pod 'DJZombieCheck', :path => '../'
+
+  target 'DJZombieCheck_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
