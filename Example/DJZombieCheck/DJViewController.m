@@ -7,6 +7,9 @@
 //
 
 #import "DJViewController.h"
+#import "DJZombieTest.h"
+
+BOOL DJZombieCheckEnable = YES;
 
 @interface DJViewController ()
 
@@ -18,6 +21,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    DJZombieTest *zombieTest = [DJZombieTest new];
+    [zombieTest test];
 }
 
 - (void)didReceiveMemoryWarning

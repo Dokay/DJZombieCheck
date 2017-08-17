@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1AF942EDD6FC5820E3F46873 /* Pods_DJZombieCheck_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC91E00A553C4DD01ECA0B2 /* Pods_DJZombieCheck_Example.framework */; };
+		4EAC2A401F457E5700D6850E /* DJZombieTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC2A3F1F457E5700D6850E /* DJZombieTest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -38,7 +39,9 @@
 
 /* Begin PBXFileReference section */
 		1480CCA803731D9E23862A5F /* Pods-DJZombieCheck_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DJZombieCheck_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-DJZombieCheck_Example/Pods-DJZombieCheck_Example.release.xcconfig"; sourceTree = "<group>"; };
-		2FD4FE5881BABCFA06BDFDEE /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		2FD4FE5881BABCFA06BDFDEE /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		4EAC2A3E1F457E5700D6850E /* DJZombieTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJZombieTest.h; sourceTree = "<group>"; };
+		4EAC2A3F1F457E5700D6850E /* DJZombieTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJZombieTest.m; sourceTree = "<group>"; };
 		5CC91E00A553C4DD01ECA0B2 /* Pods_DJZombieCheck_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DJZombieCheck_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* DJZombieCheck_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DJZombieCheck_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -59,13 +62,13 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
-		6698B0C7A193B889585AB901 /* DJZombieCheck.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = DJZombieCheck.podspec; path = ../DJZombieCheck.podspec; sourceTree = "<group>"; };
+		6698B0C7A193B889585AB901 /* DJZombieCheck.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DJZombieCheck.podspec; path = ../DJZombieCheck.podspec; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7A0FD68234A32AB813769C58 /* Pods_DJZombieCheck_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DJZombieCheck_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8C43CC207AAD2732599B2F54 /* Pods-DJZombieCheck_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DJZombieCheck_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DJZombieCheck_Example/Pods-DJZombieCheck_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		AC2E8A884A7E7710DD3053A2 /* Pods-DJZombieCheck_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DJZombieCheck_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DJZombieCheck_Tests/Pods-DJZombieCheck_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		CA4D0CC055603EB06E30A182 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		CA4D0CC055603EB06E30A182 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		E7E2DAC30B2312DFFC4A08A0 /* Pods-DJZombieCheck_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DJZombieCheck_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DJZombieCheck_Tests/Pods-DJZombieCheck_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +137,8 @@
 			children = (
 				6003F59C195388D20070C39A /* DJAppDelegate.h */,
 				6003F59D195388D20070C39A /* DJAppDelegate.m */,
+				4EAC2A3E1F457E5700D6850E /* DJZombieTest.h */,
+				4EAC2A3F1F457E5700D6850E /* DJZombieTest.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* DJViewController.h */,
 				6003F5A6195388D20070C39A /* DJViewController.m */,
@@ -404,6 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* DJAppDelegate.m in Sources */,
+				4EAC2A401F457E5700D6850E /* DJZombieTest.m in Sources */,
 				6003F5A7195388D20070C39A /* DJViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
