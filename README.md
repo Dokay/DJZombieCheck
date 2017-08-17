@@ -43,7 +43,7 @@ pod 'DJZombieCheck'
 
 ### Details
     1.DJZombieCheck is Enable default,if you want to disable it,just set  DJZombieCheckEnable(global variable) to NO:
-```
+```objc
     BOOL DJZombieCheckEnable = NO;
 ```
 
