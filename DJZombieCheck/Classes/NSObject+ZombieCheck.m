@@ -10,6 +10,7 @@
 
 #import "NSObject+ZombieCheck.h"
 #import <objc/runtime.h>
+#import "DJZombieCheckHanlder.h"
 
 #define kXcodeZombieENVKey      "NSZombieEnabled"
 #define kDJZombieShort          "_NSZombie_"
@@ -90,14 +91,14 @@ NS_INLINE void MethodSwizzle(Class originalClass, SEL originalSelector, Class sw
 
 - (void)dj_zombie_dealloc
 {
-    BOOL zombieClassHasResigted = YES;
+    BOOL zombieClassHasRegisted = YES;
     NSString *className = NSStringFromClass(self.class);
     NSString *zombieClassName = [kDJZombieLong stringByAppendingString:className];
     const char *zombieClassNameUtf8 = zombieClassName.UTF8String;
     
     Class zombieClass = objc_lookUpClass(zombieClassNameUtf8);
     if (!zombieClass) {
-        zombieClassHasResigted = NO;
+        zombieClassHasRegisted = NO;
         Class tmpClass = objc_lookUpClass(kDJZombieShort);
         DumpObjcMethods(tmpClass);
         zombieClass = objc_duplicateClass(tmpClass,zombieClassNameUtf8,0);
@@ -107,7 +108,7 @@ NS_INLINE void MethodSwizzle(Class originalClass, SEL originalSelector, Class sw
     objc_destructInstance((id)self);
     object_setClass((id)self,zombieClass);
     
-    if (zombieClassHasResigted == NO) {
+    if (zombieClassHasRegisted == NO) {
         SEL originalSignatureSelector = @selector(methodSignatureForSelector:);
         SEL swizzledSignatureSelector = @selector(dj_methodSignatureForSelector:);
         //_NSZombie_ has no method ,just add it.
@@ -134,20 +135,6 @@ NS_INLINE void MethodSwizzle(Class originalClass, SEL originalSelector, Class sw
         dj_throwExceptionForSelector(self,selector,nil);
     }
     return signature;
-}
-
-void dj_throwExceptionForSelector(id selfInstance,SEL selector,NSArray *paramList)
-{
-    Class selfClass = object_getClass(selfInstance);
-    NSString *zombieClassName = [NSString stringWithUTF8String:class_getName(selfClass)];
-    NSString *originalClassName = [zombieClassName stringByReplacingOccurrencesOfString:kDJZombieLong withString:@""];
-    
-    id paramLog = paramList ? paramList : @"dj_no_param";
-    NSString *zombieLog = [NSString stringWithFormat:@"Find zombie,class:%@ address:%p selector:%@ param:%@\r\n",originalClassName,selfInstance,NSStringFromSelector(selector),paramLog];
-    NSLog(@"%@", zombieLog);
-    
-    NSException *zombieException = [NSException exceptionWithName:@"DJZombieException" reason:zombieLog userInfo:nil];
-    [zombieException raise];
 }
 
 - (void)dj_forwardInvocation:(NSInvocation *)invocation
@@ -210,6 +197,24 @@ void dj_throwExceptionForSelector(id selfInstance,SEL selector,NSArray *paramLis
     }
     
     dj_throwExceptionForSelector(self,invocation.selector,argList);
+}
+
+void dj_throwExceptionForSelector(id selfInstance,SEL selector,NSArray *paramList)
+{
+    Class selfClass = object_getClass(selfInstance);
+    NSString *zombieClassName = [NSString stringWithUTF8String:class_getName(selfClass)];
+    NSString *originalClassName = [zombieClassName stringByReplacingOccurrencesOfString:kDJZombieLong withString:@""];
+    
+    id paramLog = paramList ? paramList : @"empty";//empty string is also param,so use "empty" to replace
+    NSString *zombieLog = [NSString stringWithFormat:@"Find zombie,class:%@ address:%p selector:%@ param:%@\r\n",originalClassName,selfInstance,NSStringFromSelector(selector),paramLog];
+    NSLog(@"%@", zombieLog);
+    
+    if ([DJZombieCheckHanlder sharedInstance].zombieHandler) {
+        [DJZombieCheckHanlder sharedInstance].zombieHandler(originalClassName, selector, paramList);
+    }
+    
+    NSException *zombieException = [NSException exceptionWithName:@"DJZombieException" reason:zombieLog userInfo:nil];
+    [zombieException raise];
 }
 
 @end

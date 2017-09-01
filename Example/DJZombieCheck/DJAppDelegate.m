@@ -7,12 +7,17 @@
 //
 
 #import "DJAppDelegate.h"
+#import "DJZombieCheckHanlder.h"
 
 @implementation DJAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    //read last crash log and send it to server.
+    
+    [[DJZombieCheckHanlder sharedInstance] setZombieHandler:^(NSString *className, SEL selector, NSArray *paramList){
+        //save crash log
+    }];
     return YES;
 }
 
