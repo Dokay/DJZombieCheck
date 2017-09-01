@@ -9,6 +9,8 @@ DJZombieCheck
 
 __A Objective-C zombie object detect tool,it can work in release mode.__
 
+[**中文介绍**](http://blog.douzhongxu.com/2017/08/ZombieObjectCheck/)
+
 ## Features
 * works in release and debug mode;
 * print param in selector that zombie object perform;
@@ -52,15 +54,15 @@ pod 'DJZombieCheck'
 
     3.Want to Save crash log and send it to server:
 ```objc
-	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-	{
-	    //read last crash log and send it to server.
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+    {
+        //read last crash log and send it to server.
     
-	    [[DJZombieCheckHanlder sharedInstance] setZombieHandler:^(NSString *className, SEL selector, NSArray *paramList){
-	        //save crash log
-	    }];
-	    return YES;
-	}
+        [[DJZombieCheckHanlder sharedInstance] setZombieHandler:^(NSString *className, SEL selector, NSArray *paramList){
+            //save crash log
+    }];
+        return YES;
+    }
 ```
 
 ## Contact
