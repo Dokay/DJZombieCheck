@@ -47,8 +47,21 @@ pod 'DJZombieCheck'
     BOOL DJZombieCheckEnable = NO;
 ```
 
-    2.Xcode Zombie Objects able too
+    2.Xcode Zombie Objects open also:
     If Xcode Zombie Objects and DJZombieCheck are enable,DJZombieCheck will disable itself auto.
+
+    3.Want to Save crash log and send it to server:
+```objc
+	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+	{
+	    //read last crash log and send it to server.
+    
+	    [[DJZombieCheckHanlder sharedInstance] setZombieHandler:^(NSString *className, SEL selector, NSArray *paramList){
+	        //save crash log
+	    }];
+	    return YES;
+	}
+```
 
 ## Contact
 
