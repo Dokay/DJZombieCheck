@@ -42,7 +42,7 @@ static DJBizPreBlock _bizPreBlock;
 
 + (void)startZombieCheckWithType:(DJZombieCheckType)checkType zombieBlock:(DJZombieBlock)block
 {
-    [NSObject startZombieCheckWithType:DJZombieCheckTypeDefault bizPreBlock:nil zombieBlock:block];
+    [NSObject startZombieCheckWithType:checkType bizPreBlock:nil zombieBlock:block];
 }
 
 + (void)startZombieCheckWithType:(DJZombieCheckType)checkType bizPreBlock:(DJBizPreBlock)bizPreBlock zombieBlock:(DJZombieBlock)block
@@ -64,7 +64,7 @@ static DJBizPreBlock _bizPreBlock;
     });
 }
 
-- (void)receiveMemoryWarningNotify:(NSNotification *)notify
++ (void)receiveMemoryWarningNotify:(NSNotification *)notify
 {
     dj_zombie_release_memory_for_memory_warning();
 }
