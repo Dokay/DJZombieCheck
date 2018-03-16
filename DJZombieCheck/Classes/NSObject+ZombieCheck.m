@@ -10,13 +10,13 @@
 
 #import "NSObject+ZombieCheck.h"
 #import <objc/runtime.h>
-#import "hd_zombie_object_cache.h"
+#import "dj_zombie_object_cache.h"
 
 #define kHDZombieLong @"__Zombie_"
 #define kHDZombieShort "_NSZombie_"
 #define kHDZombieErrorParam @"kHDZombieErrorParam"
 
-#define HD_ARG_CASE(_typeChar, _type) \
+#define DJ_ARG_CASE(_typeChar, _type) \
 case _typeChar: {   \
 _type arg;  \
 [invocation getArgument:&arg atIndex:i];    \
@@ -54,11 +54,11 @@ static DJBizPreBlock _bizPreBlock;
         _bizPreBlock = [bizPreBlock copy];
         
         SEL originalSelector = @selector(dealloc);
-        SEL swizzledSelector = @selector(hd_zombie_dealloc);
+        SEL swizzledSelector = @selector(dj_zombie_dealloc);
         MethodSwizzle(NSObject.class,originalSelector,NSObject.class,swizzledSelector,YES);
         
         if (_checkType == DJZombieCheckTypeAdvance) {
-            hd_zombie_init_current();
+            dj_zombie_init_current();
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMemoryWarningNotify:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         }
     });
@@ -66,10 +66,10 @@ static DJBizPreBlock _bizPreBlock;
 
 - (void)receiveMemoryWarningNotify:(NSNotification *)notify
 {
-    hd_zombie_release_memory_for_memory_warning();
+    dj_zombie_release_memory_for_memory_warning();
 }
 
-- (void)hd_zombie_dealloc
+- (void)dj_zombie_dealloc
 {
     NSString *className = NSStringFromClass(self.class);
     NSString *zombieClassName = [kHDZombieLong stringByAppendingString:className];
@@ -81,7 +81,7 @@ static DJBizPreBlock _bizPreBlock;
         DumpObjcMethods(tmpClass);
         zombieClass = objc_duplicateClass(tmpClass,zombieClassNameUtf8,0);
         DumpObjcMethods(zombieClass);
-        hd_addForwordMethodsWithZombieClass(zombieClass);
+        dj_addForwordMethodsWithZombieClass(zombieClass);
         DumpObjcMethods(zombieClass);
     }
     
@@ -95,9 +95,9 @@ static DJBizPreBlock _bizPreBlock;
         case DJZombieCheckTypeAdvance:
         {
             if (_bizPreBlock && _bizPreBlock(className)) {
-                hd_zombie_add_biz((void*)self,className.UTF8String);
+                dj_zombie_add_biz((void*)self,className.UTF8String);
             }else{
-                hd_zombie_add_base((void*)self,className.UTF8String);
+                dj_zombie_add_base((void*)self,className.UTF8String);
             }
         }
             break;
@@ -115,7 +115,7 @@ static NSMethodSignature* dj_methodSignatureForSelector(id obj,SEL sel, SEL sele
     id instance = class_createInstance(NSClassFromString(orignalClassName), 0);
     NSMethodSignature *signature = [instance methodSignatureForSelector:selector];
     if (!signature) {
-        hd_throwExceptionForSelector(obj,selector,nil);
+        dj_throwExceptionForSelector(obj,selector,nil);
     }
     return signature;
 }
@@ -131,19 +131,19 @@ static void dj_forwardInvocation(id obj, SEL sel, NSInvocation* invocation)
         for (NSUInteger i = 2; i < numberOfArguments; i++) {
             const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
             switch(argumentType[0] == 'r' ? argumentType[1] : argumentType[0]) {
-                    HD_ARG_CASE('c', char)
-                    HD_ARG_CASE('C', unsigned char)
-                    HD_ARG_CASE('s', short)
-                    HD_ARG_CASE('S', unsigned short)
-                    HD_ARG_CASE('i', int)
-                    HD_ARG_CASE('I', unsigned int)
-                    HD_ARG_CASE('l', long)
-                    HD_ARG_CASE('L', unsigned long)
-                    HD_ARG_CASE('q', long long)
-                    HD_ARG_CASE('Q', unsigned long long)
-                    HD_ARG_CASE('f', float)
-                    HD_ARG_CASE('d', double)
-                    HD_ARG_CASE('B', BOOL)
+                    DJ_ARG_CASE('c', char)
+                    DJ_ARG_CASE('C', unsigned char)
+                    DJ_ARG_CASE('s', short)
+                    DJ_ARG_CASE('S', unsigned short)
+                    DJ_ARG_CASE('i', int)
+                    DJ_ARG_CASE('I', unsigned int)
+                    DJ_ARG_CASE('l', long)
+                    DJ_ARG_CASE('L', unsigned long)
+                    DJ_ARG_CASE('q', long long)
+                    DJ_ARG_CASE('Q', unsigned long long)
+                    DJ_ARG_CASE('f', float)
+                    DJ_ARG_CASE('d', double)
+                    DJ_ARG_CASE('B', BOOL)
                 case '@': {
                     __unsafe_unretained id arg;
                     [invocation getArgument:&arg atIndex:i];
@@ -179,13 +179,13 @@ static void dj_forwardInvocation(id obj, SEL sel, NSInvocation* invocation)
         }
     }
     
-    hd_throwExceptionForSelector(obj,invocation.selector,argList);
+    dj_throwExceptionForSelector(obj,invocation.selector,argList);
 }
 
-NS_INLINE void hd_addForwordMethodsWithZombieClass(Class zombieClass)
+NS_INLINE void dj_addForwordMethodsWithZombieClass(Class zombieClass)
 {
     SEL originalSignatureSelector = @selector(methodSignatureForSelector:);
-    //    SEL swizzledSignatureSelector = @selector(hd_methodSignatureForSelector:);
+    //    SEL swizzledSignatureSelector = @selector(dj_methodSignatureForSelector:);
     //_NSZombie_ has no method ,just add it.
     Method swizzledSignatureMethod = class_getInstanceMethod(NSObject.class, originalSignatureSelector);
     class_addMethod(zombieClass, originalSignatureSelector, (IMP)dj_methodSignatureForSelector, method_getTypeEncoding(swizzledSignatureMethod));
@@ -215,7 +215,7 @@ NS_INLINE void DumpObjcMethods(Class clz)
     }
 }
 
-NS_INLINE void hd_throwExceptionForSelector(id selfInstance,SEL selector,NSArray *paramList)
+NS_INLINE void dj_throwExceptionForSelector(id selfInstance,SEL selector,NSArray *paramList)
 {
     Class selfClass = object_getClass(selfInstance);
     NSString *className = NSStringFromClass(selfClass);

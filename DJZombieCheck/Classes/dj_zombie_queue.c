@@ -1,20 +1,21 @@
 //
-//  hd_zombie_queue.c
-//  eif-ios-app
+//  dj_zombie_queue.c
+//  DJZombieCheck
 //
-//  Created by Dokay on 2017/11/15.
-//  Copyright © 2017年 Ever Grande. All rights reserved.
+//  advance implementation for __dealloc_zombie
 //
+//  Created by Dokay on 2017/3/26.
+//  Copyright © 2017年 dj226. All rights reserved.
 
-#include "hd_zombie_queue.h"
+#include "dj_zombie_queue.h"
 #include <stdlib.h>
 #include <assert.h>
 #include <limits.h>
 
-bool hd_zombie_queue_init(HD_ZOMBIE_QUEUE *queue)
+bool dj_zombie_queue_init(DJ_ZOMBIE_QUEUE *queue)
 {
     if (queue == NULL) {
-        queue = (HD_ZOMBIE_QUEUE*)calloc(1,sizeof(HD_ZOMBIE_QUEUE));
+        queue = (DJ_ZOMBIE_QUEUE*)calloc(1,sizeof(DJ_ZOMBIE_QUEUE));
         if (queue == NULL) {
             assert("calloc error");
             return false;
@@ -27,7 +28,7 @@ bool hd_zombie_queue_init(HD_ZOMBIE_QUEUE *queue)
     return true;
 }
 
-void hd_zombie_queue_append(HD_ZOMBIE_QUEUE *queue,void *data)
+void dj_zombie_queue_append(DJ_ZOMBIE_QUEUE *queue,void *data)
 {
     if (queue == NULL) {
         assert("queue is not init");
@@ -41,7 +42,7 @@ void hd_zombie_queue_append(HD_ZOMBIE_QUEUE *queue,void *data)
         assert("queue full");
     }
     
-    HD_ZOOMBIE_LIST_NODE *new_node = (HD_ZOOMBIE_LIST_NODE*)calloc(1,sizeof(HD_ZOOMBIE_LIST_NODE));
+    DJ_ZOOMBIE_LIST_NODE *new_node = (DJ_ZOOMBIE_LIST_NODE*)calloc(1,sizeof(DJ_ZOOMBIE_LIST_NODE));
     
     if (new_node == NULL) {
         assert("calloc error");
@@ -52,7 +53,7 @@ void hd_zombie_queue_append(HD_ZOMBIE_QUEUE *queue,void *data)
     if (queue->head == NULL) {
         queue->head = queue->tail = new_node;
     }else{
-        HD_ZOOMBIE_LIST_NODE *tmp_tail = queue->tail;
+        DJ_ZOOMBIE_LIST_NODE *tmp_tail = queue->tail;
         tmp_tail->next = new_node;
         queue->tail = new_node;
     }
@@ -60,7 +61,7 @@ void hd_zombie_queue_append(HD_ZOMBIE_QUEUE *queue,void *data)
     queue->count += 1;
 }
 
-void * hd_zombie_queue_dequeue(HD_ZOMBIE_QUEUE *queue)
+void * dj_zombie_queue_dequeue(DJ_ZOMBIE_QUEUE *queue)
 {
     if (queue == NULL) {
         assert("queue is not init");
@@ -71,7 +72,7 @@ void * hd_zombie_queue_dequeue(HD_ZOMBIE_QUEUE *queue)
         return NULL;
     }
     
-    HD_ZOOMBIE_LIST_NODE *tmp_head = queue->head;
+    DJ_ZOOMBIE_LIST_NODE *tmp_head = queue->head;
     queue->head = queue->head->next;
     
     void *data = tmp_head->data;

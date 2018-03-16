@@ -1,13 +1,14 @@
 //
-//  hd_zombie_object_cache.h
-//  eif-ios-app
+//  dj_zombie_object_cache.h
+//  DJZombieCheck
 //
-//  Created by Dokay on 2017/11/14.
-//  Copyright © 2017年 Ever Grande. All rights reserved.
+//  advance implementation for __dealloc_zombie
 //
+//  Created by Dokay on 2017/3/26.
+//  Copyright © 2017年 dj226. All rights reserved.
 
-#ifndef hd_zombie_object_cache_h
-#define hd_zombie_object_cache_h
+#ifndef dj_zombie_object_cache_h
+#define dj_zombie_object_cache_h
 
 #include <stdio.h>
 
@@ -18,7 +19,7 @@
 /**
  init curent zombie object memeory manage
  */
-void hd_zombie_init_current(void);
+void dj_zombie_init_current(void);
 
 /**
  add zombie object address for class not biz.
@@ -26,7 +27,7 @@ void hd_zombie_init_current(void);
  @param address zombie object address
  @param name zombie object class name
  */
-void hd_zombie_add_base(void *address,const char *name);
+void dj_zombie_add_base(void *address,const char *name);
 
 /**
  add zombie object for class biz
@@ -34,16 +35,16 @@ void hd_zombie_add_base(void *address,const char *name);
  @param address zombie object address
  @param name zombie object class name
  */
-void hd_zombie_add_biz(void *address,const char *name);
+void dj_zombie_add_biz(void *address,const char *name);
 
 /**
  release zombie objects for memeory warning.
  */
-void hd_zombie_release_memory_for_memory_warning(void);
+void dj_zombie_release_memory_for_memory_warning(void);
 
 /**
  free all zombie objects memory
  */
-void hd_zombie_free_all(void);
+void dj_zombie_free_all(void);
 
-#endif /* hd_zombie_object_cache_h */
+#endif /* dj_zombie_object_cache_h */

@@ -16,7 +16,7 @@
     //read last crash log and send it to server.
     
     [NSObject startZombieCheckWithType:DJZombieCheckTypeAdvance zombieBlock:^(NSString *className, NSString *selectorName, NSArray *paramList) {
-        id paramLog = paramList ? paramList : @"hd_no_param";
+        id paramLog = paramList ? paramList : @"dj_no_param";
         NSString *zombieLog = [NSString stringWithFormat:@"Find Zombie,class:%@ selector:%@ param:%@\r\n",className,selectorName,paramLog];
         NSLog(@"%@", zombieLog);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Zombie Object find" message:zombieLog delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
