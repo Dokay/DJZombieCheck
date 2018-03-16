@@ -7,7 +7,7 @@
 //
 
 #import "DJAppDelegate.h"
-#import "DJZombieCheckHanlder.h"
+#import "NSObject+ZombieCheck.h"
 
 @implementation DJAppDelegate
 
@@ -15,8 +15,15 @@
 {
     //read last crash log and send it to server.
     
-    [[DJZombieCheckHanlder sharedInstance] setZombieHandler:^(NSString *className, SEL selector, NSArray *paramList){
-        //save crash log
+    [NSObject startZombieCheckWithType:DJZombieCheckTypeAdvance zombieBlock:^(NSString *className, NSString *selectorName, NSArray *paramList) {
+        id paramLog = paramList ? paramList : @"hd_no_param";
+        NSString *zombieLog = [NSString stringWithFormat:@"Find Zombie,class:%@ selector:%@ param:%@\r\n",className,selectorName,paramLog];
+        NSLog(@"%@", zombieLog);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Zombie Object find" message:zombieLog delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        //upload zombie object info and raise exception here.
+        //        abort();
     }];
     return YES;
 }

@@ -54,16 +54,32 @@ pod 'DJZombieCheck'
 
     3.Want to Save crash log and send it to server:
 ```objc
-    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-    {
-        //read last crash log and send it to server.
+	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+	{
+	    //read last crash log and send it to server.
     
-        [[DJZombieCheckHanlder sharedInstance] setZombieHandler:^(NSString *className, SEL selector, NSArray *paramList){
-            //save crash log
-    }];
-        return YES;
-    }
+	    [NSObject startZombieCheckWithType:DJZombieCheckTypeAdvance zombieBlock:^(NSString *className, NSString *selectorName, NSArray *paramList) {
+	        id paramLog = paramList ? paramList : @"hd_no_param";
+	        NSString *zombieLog = [NSString stringWithFormat:@"Find Zombie,class:%@ selector:%@ param:%@\r\n",className,selectorName,paramLog];
+	        NSLog(@"%@", zombieLog);
+	        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Zombie Object find" message:zombieLog delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+	        [alert show];
+        
+	        //upload zombie object info and raise exception here.
+	        //        abort();
+	    }];
+	    return YES;
+	}
 ```
+	4.Memory release type:
+```objc
+	typedef NS_ENUM(NSInteger,DJZombieCheckType){
+	    DJZombieCheckTypeDefault,//does not release memory for object has called release, memory usage will grow continuously.
+	    DJZombieCheckTypeRelease,//release memory for object has called release. if zombie object called after its memory has rewrited,zombie check may not work.
+	    DJZombieCheckTypeAdvance,//release object's memory when UIApplicationDidReceiveMemoryWarningNotification is post.
+	};
+```
+
 
 ## Contact
 
